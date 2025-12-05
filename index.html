@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday vadina!</title>
+    <style>
+        /* CSS: Makes it look beautiful */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh; /* Changed to min-height for scrolling if content is long */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden; /* Allow vertical scroll if needed */
+            color: white;
+            padding: 20px; /* Add padding for smaller screens */
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* The Card Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px; /* Slightly reduced padding */
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            max-width: 500px; /* Made slightly wider for media */
+            width: 100%;
+            transform: scale(0); /* Hidden initially */
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none; /* Removed from flow initially */
+            margin: auto;
+        }
+
+        .card.show {
+            display: block;
+            transform: scale(1);
+        }
+
+        /* Styling Images and Videos */
+        .media-frame {
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            max-width: 100%;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            margin-top: 0;
+            background: linear-gradient(to right, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ddd;
+            margin: 15px 0;
+        }
+
+        /* The Surprise Button */
+        .btn-surprise {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff0055, #ff00aa);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            outline: none;
+        }
+
+        .btn-surprise:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 0, 85, 0.8);
+        }
+
+        .btn-surprise.hide {
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 0, 85, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        /* Helper for placeholders */
+        .placeholder-note {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <button class="btn-surprise" id="btnSurprise" onclick="celebrate()">Click for a Surprise!</button>
+
+        <div class="card" id="birthdayCard">
+            <h1>Happy Birthday vadina!</h1>
+
+            <div class="media-frame">
+                <img src="v1.png" alt="Birthday Friend">
+            </div>
+
+            <p>
+              On this special day, I wish you a year wrapped in warmth, brightened by laughter, and touched by sweet surprises. Your kindness inspires, your smile comforts, and your presence makes our world more beautiful.</p>
+          May you always bloom with joy, walk forward with courage, and receive every blessing your heart quietly hopes for. Thank you for being you — cherished, loved, and deeply admired.
+          Happy Birthday — with all my love and the warmest wishes. Once again happy birthday to you vadina.
+        LOVE YOU VADINA💝  
+            </p>
+
+             <div class="media-frame">
+                <video controls>
+                    <source src="v2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                 <p class="placeholder-note">
+          Wishing you a day filled with happiness and a year filled with joy. 
+                May all your dreams come true!
+    </p>
+            </div>
+
+            <p>
+                <br>
+                <strong>LOVE YOU VADINA</strong>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript: Adds the interactivity and fireworks
+
+        function celebrate() {
+            // Hide button, show card
+            const button = document.getElementById('btnSurprise');
+            const card = document.getElementById('birthdayCard');
+            
+            button.classList.add('hide');
+            card.classList.add('show');
+
+            // Start Confetti
+            startConfetti();
+            
+            // Optional: Auto-play video when card opens (if browser allows)
+            const video = document.querySelector('video');
+            if(video) {
+                 // Small delay to allow transition to finish
+                setTimeout(() => {
+                     video.play().catch(e => console.log("Autoplay blocked, user must click play."));
+                }, 600);
+            }
+        }
+
+        // --- Simple Confetti Logic ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#ffffff'];
+
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: -10,
+                size: Math.random() * 5 + 2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speedY: Math.random() * 3 + 2,
+                speedX: Math.random() * 2 - 1
+            };
+        }
+
+        function startConfetti() {
+            // Create a burst of particles
+            for (let i = 0; i < 150; i++) {
+                particles.push(createParticle());
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((p, index) => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Reset particles if they fall off screen to keep it going for a bit
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Resize canvas if window resizes
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
